@@ -1,0 +1,63 @@
+setwd("/Users/emmahemmerle/Documents/EDU/UniBo/S.2/Biogeography and Macroecology /Biogeograpgy_R")
+getwd()
+## using cmd+enter in order to transpose a line directly from a script to the console in RStudio 
+
+##getting help 
+help(mean) 
+?mean
+??mean ##--> If you don't know the exact name of the function 
+browseVignettes()
+sessionInfo()
+ 
+ 
+## saving a script 
+## ctrl+shift+N to open up your script pane 
+## ctrl+S to save it 
+
+# including comments in your script 
+## ctrl+C
+
+##looking at a function's arguments
+## use function args()
+
+## useful functions 
+length() ##tells you how many elements are in a particular vector
+class() ##indicates what kind of object you are working with
+str() ##provides an overview of the structure of an object and its elements.
+
+## subsetting vectors 
+animals <- c("mouse", "rat", "dog", "cat")
+animals[2]
+animals[c(3, 2)]
+more_animals <- animals[c(1, 2, 3, 2, 1, 4)]
+more_animals
+
+
+## conditional subsetting 
+weight_g <- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, FALSE, TRUE, TRUE)]
+
+weight_g[weight_g > 50]
+weight_g[weight_g > 30 & weight_g < 50]
+weight_g[weight_g <= 30 | weight_g == 55] ## where | means "or"
+
+#Missing values (NA)
+#You can add the argument na.rm = TRUE to calculate the result as if the missing values were removed 
+heights <- c(2, 4, 4, NA, 6)
+mean(heights)
+max(heights)
+mean(heights, na.rm = TRUE)
+max(heights, na.rm = TRUE)
+
+## Extract those elements which are not missing values.
+heights[!is.na(heights)]
+
+## Returns the object with incomplete cases removed. 
+#The returned object is an atomic vector of type `"numeric"` (or #`"double"`).
+na.omit(heights)
+
+## Extract those elements which are complete cases. 
+#The returned object is an atomic vector of type `"numeric"` (or #`"double"`).
+heights[complete.cases(heights)]
+
+ 
