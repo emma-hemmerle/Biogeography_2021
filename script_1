@@ -1,0 +1,23 @@
+3 + 5
+12 / 7
+# an object you want to store 
+weight_kg<-55
+weight_kg #recalling the value of the object 
+(weight_kg<-55) #the parentheses means that it will also print the value of the object 
+2.2*weight_kg
+weight_lb<-2.2*weight_kg
+# using .csv file, it is a coma separated value 
+# you can modify delimitation by going to data and selecting text to column 
+# or open excel (empty) and open you csv file 
+# or you open an empty file, got to data, and select get data from text, and then you will be prompted to choose your delimitations, etc. 
+# You put you data set within your data subfolder, within your project folder. 
+# loading the dataset
+dat<-read.csv("raw_data/data_biomac_1.csv")
+# we get an ecoding error 
+dat<-read.csv("raw_data/data_biomac_1.csv", check.names=F)
+dat 
+head(dat)
+summary(dat)
+str(dat) #looking at the types of variables 
+dim(dat) # gives you the number of rows and number of columns 
+tail(dat) #opposite of head function, you see the last rows
