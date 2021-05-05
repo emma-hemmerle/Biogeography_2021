@@ -1,0 +1,57 @@
+# we are installing a package useful for ecology 
+install.packages("vegan")
+# to load the package we use the library function 
+library(vegan)
+# loading the dataset
+# we can't call it data because data is already a function in R. 
+dat1<-read.csv("raw_data/data_biomac_1.csv")
+#start inspecting the object 
+dat1
+summary(dat1)
+head(dat1)
+tail(dat1)
+# to get the type of each variable (column), and type of object (here)
+str(dat1)
+#  other variable types include characters (text), logical (true or false)
+# we get integral and numeric numbers in this case 
+#subsetting/indexing, looking at the first 5 columns 
+#brackets = alt+shift+(=[]
+head(dat1[,1:5])
+# selecting row is done by indicating rows before the comma between brackets
+dat1[1:6,1:5] #gives you the same results 
+# the first dimension is the rows, the second dimension is the columns. 
+dat1[1:2,1:3]
+
+# rows correspond to observations, whereas columns are variables, and this is why head() and tail() functions focus on rows 
+
+dim(dat1)
+# gives number of rows(1st) and columns (2nd)
+
+
+comm <- dat1[, -1] #to remove the first column which is just the numbers of the plots 
+
+# species richness is the number of species per plot 
+# since our table has percentage cover values, we can determine species richness of a plot by looking at all the values which are bigger than 0. 
+comm[1:5,1:5]
+comm[1:5,1:5]>0
+# we get true/false values 
+#summing the value of the rows. in R, true counts as 1, and false counts as 0
+rowSums(comm[1:5,1:5]>0)
+# for each of the five sites (1st row), we obtain the richness (2nd row). 
+rowSums(comm>0)
+rowSums(comm[,1:20]>0) # looking at the species richness in all plots, only looking at the first 20 species
+rowSums(comm[1:10,]>0) # overall species richness for the first ten plots 
+
+# the function specnumber directly calculates the species richness of your dataframe
+specnumber(comm)
+
+# if you just add up the alpha diversity of individual plots, you don't get the species richness of the two plots
+# indeed, some species might be present in both plots, and therefore what we obtain in the number of occurences in both plots, not the number of species.
+comm[which(comm[,1]>0),] #abis Alba ws present only in the 1st plot, and therefore, here, we obtain all of the abundances of the 1st plot
+
+hist(specnumber(comm))
+#adding arguments 
+hist(specnumber(comm), xlab="Species Richness", main=NULL)
+# giving a name to the axis, and putting no title 
+
+
