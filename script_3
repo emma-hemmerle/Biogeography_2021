@@ -1,0 +1,58 @@
+library(vegan)
+
+# looking at species frequency instead of species richness in each plot 
+# a species is frequent when it is present in many plots 
+
+colSums(comm>0) #for each species, we obtain the number of plot in which they are present 
+# we can do the same thing by using the specnumber function 
+?specnumber #help
+# when the argument MARGIN=1, the calculation is based on rows 
+# when the argument MARGIN=2, the calculation is based on cols
+specnumber(comm, MARGIN=2)
+
+#histogram of species frequencies
+hist(specnumber(comm, MARGIN=2))
+# on the x axis is the absolute frequency i.e. the number of plots in which species are present. 
+# most species have very low frequency, and only 1 species has a frequency of 19 (i.e. it is present in 19 plots)
+hist(specnumber(comm, MARGIN=2),main=NULL, ylab="Number of Species", xlab="Species Frequency")
+
+#changes the size of the bins 
+#changing the breaks argument 
+hist(specnumber(comm, MARGIN=2),breaks=20, main=NULL, ylab="Number of Species", xlab="Species Frequency")
+
+#find the 6 most frequent species in the dataset
+?sort
+head(sort(specnumber(comm, MARGIN=2),decreasing=T))
+
+# the boolean (logical) condition "equal to" is written with "=="
+#1==2
+#[1] FALSE
+
+# calculate how many species which occur in only 1 plot 
+sum(specnumber(comm, MARGIN=2)==1) #37
+
+#see WHAT are the species that occur only once
+speciesfreq<-specnumber(comm, MARGIN=2)
+specnumber(comm, MARGIN=2)[which(speciesfreq==1)]
+#orrr
+which(specnumber(comm, MARGIN=2)==1)
+
+#presence-absence 
+comm_pa <- decostand(comm, method = "pa")
+comm_pa
+
+
+# how to calculate gamma diversity (cumulative diversity)
+# beta is variation between localities (pairwise indexes, or whole-dataset approaches)
+# alpha is the diversity of single localities 
+
+rep(1,10) # string of 10 1s
+rep(2,9) #string of 9 2s
+groups <- c(rep(1, 10), rep(2, 9))
+specnumber(comm, groups=groups)
+# we obtain the gamma diversity, but not for the whole dataset, for each of the 2 groups we have created 
+
+# now doing for the whole dataset 
+groups<-rep(1,19)
+specnumber(comm, groups=groups)
+# we obtain total richness of 84, which is what we expected ! 
