@@ -1,0 +1,73 @@
+#assignment 
+dat2 <- read.csv("raw_data/data_biomac_3.csv", stringsAsFactors = F)
+dat2<-read.csv("raw_data/data_biomac_3.csv")
+dim(dat2)
+# 1561 rows and 873 columns 
+nrow(dat2)
+ncol(dat2)
+
+head(dat2)
+comm2 <- dat2[, -c(1,2,3,4,5,6,7)]
+head(comm2)
+
+# species richness per plot
+specnumber(comm2)
+sr<-specnumber(comm2)
+hist(sr,xlab="species richness",main=NULL, ylab="number of plots",breaks=20)
+summary(sr)
+which.max(sr)
+
+
+# species frequency 
+sf<-specnumber(comm2, MARGIN=2)
+hist(sf,main=NULL,xlab="Species Frequency",ylab="number of species",breaks=50)
+
+#Which are the 15 most common species? 
+head(sort(specnumber(comm2, MARGIN=2),decreasing=T),n=15L)
+head(sort(specnumber(comm2, MARGIN = 2), decreasing = T), 15)
+sort(specnumber(comm, MARGIN = 2), decreasing = T)[1:15]
+
+
+#Which species is most common on "Elba"? 
+dat2$island
+dat2[dat2$island=="Elba"]
+elba <- dat2[dat2$island == "Elba", ]
+dim(elba)
+elba2<-elba[, -c(1,2,3,4,5,6,7)]
+head(sort(specnumber(elba2, MARGIN=2),decreasing=T))
+
+#How many species occur only once?
+sum(specnumber(comm2, MARGIN=2)==1)
+which(specnumber(comm2, MARGIN=2)==1)
+speciesfreq2<-specnumber(comm2, MARGIN=2)
+specnumber(comm2, MARGIN=2)[which(speciesfreq2==1)]
+
+#Which habitat and island have the greatest and smallest gamma diversity?
+
+
+specnumber(comm2, groups=dat2$island)
+sort(specnumber(comm2, groups=dat2$island))
+
+specnumber(comm2, groups=dat2$habitat)
+sort(specnumber(comm2, groups=dat2$habitat))
+
+# beta (additive) = gamma - average_alpha
+summary(sr)
+dim(comm2)
+#beta= 866-15.14= 850.86
+
+#beta (multiplicative)= 866/15.14= 57.19947
+
+adipart(comm2,dat2[,c(3,5,6,7)],nsimul=9)
+multipart(comm2,dat2[,c(3,5,6,7)],nsimul=9,scales=0)
+
+
+
+# Which habitat and island have the greatest and smallest gamma diversity?
+
+specnumber(comm2, groups = dat2$island)
+sort(specnumber(comm2, groups = dat2$island))
+sort(specnumber(comm2, groups = dat2$habitat))
+install.packages(c("Hmisc", "betapart"))
+library(Hmisc)
+library(betapart)
