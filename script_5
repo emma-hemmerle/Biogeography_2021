@@ -1,0 +1,37 @@
+library(Hmisc)
+library(betapart)
+library(vegan)
+
+dat3 <- read.csv("raw_data/data_biomac_2.csv", stringsAsFactors = F)
+dim(dat3)
+dat3[1:5,1:10]
+
+comm3<-dat3[,-(1:5)]
+comm3
+
+#presence absence 
+comm3_pa<-decostand(comm3,method = "pa")
+comm3_pa
+
+# additive partitioning 
+#partitioning alpha, gamma, and beta diversity 
+# only partitioning at the plot level, not at the habitat level for instance 
+adipart(comm3_pa)
+# the is the default, and therefore, alpha is the plot level, gamma is the dataset. 
+
+# we obtain: 
+#               statistic SES    mean    2.5%     50%  97.5% Pr(sim.)   
+#alpha.1        11  6.4706  9.7427  9.3158  9.7895 10.053     0.01 **
+#  gamma        84  0.0000 84.0000 84.0000 84.0000 84.000     1.00   
+#beta.1         73 -6.4706 74.2573 73.9474 74.2105 74.684     0.01 **
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+#beta is equal to gamma - average alpha
+
+adipart(comm3_pa,dat3[,1:4])
+
+
+# multiplicative partitioning 
+multipart(comm3_pa, scales = 0)
+#here beta is gamma/alpha
+multipart(comm3_pa, dat3[, c(1, 5, 4)], scales = 0)
